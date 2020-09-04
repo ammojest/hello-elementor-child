@@ -364,8 +364,7 @@ function new_product_title() {
 
                     if( $manulogo = get_field( 'make', $product->get_id() ) ) {
                 $manulogo = str_replace(' ', '-', $manulogo);
-                $manulogo = trim($manulogo);
-                echo '<a href="/make/' . $manulogo . '"><img src="/wp-content/uploads/' . strtoupper($manulogo). '-logo.png" class="manufacturer_logo" /></a>';;
+                echo '<a href="/make/' . $manulogo . '"><img src="/wp-content/uploads/' . trim(strtoupper($manulogo)). '-logo.png" class="manufacturer_logo" /></a>';;
                 }
 
                 $currentprice = get_field('main_business_price');
