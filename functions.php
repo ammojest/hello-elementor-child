@@ -12,7 +12,7 @@
 
 //=====================================================================================
 //                      Adds Bootstrap to the WP Theme
-//=================================================================================test
+//=====================================================================================
 
 
 function themebs_enqueue_styles() {
@@ -364,6 +364,7 @@ function new_product_title() {
 
                     if( $manulogo = get_field( 'make', $product->get_id() ) ) {
                 $manulogo = str_replace(' ', '-', $manulogo);
+                $manulogo = trim($manulogo);
                 echo '<a href="/make/' . $manulogo . '"><img src="/wp-content/uploads/' . strtoupper($manulogo). '-logo.png" class="manufacturer_logo" /></a>';;
                 }
 
