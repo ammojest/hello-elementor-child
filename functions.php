@@ -297,7 +297,7 @@ function add_archive_price() {
 // Archive ends
 
 // ====================================================================================
-//                          Start Of The Custom Product Page
+//                          Start of the Custom Product Page
 // ====================================================================================
 
 //adds the product title to the SPP
@@ -363,9 +363,8 @@ function new_product_title() {
     
 
                     if( $manulogo = get_field( 'make', $product->get_id() ) ) {
-                $manulogonoend = rtrim($manulogo);
-                $manulogonoend = str_replace(' ', '-', $manulogonoend);
-                echo '<a href="/make/' . $manulogonoend . '"><img src="/wp-content/uploads/' . strtoupper($manulogonoend). '-logo.png" class="manufacturer_logo" /></a>';;
+                $manulogo = str_replace(' ', '-', $manulogo);
+                echo '<a href="/make/' . $manulogo . '"><img src="/wp-content/uploads/' . strtoupper($manulogo). '-logo.png" class="manufacturer_logo" /></a>';;
                 }
 
                 $currentprice = get_field('main_business_price');
@@ -447,28 +446,33 @@ function new_product_title() {
                 echo '<div class="key_feats_logos">';
 
                 if( $dabtest = get_sub_field( 'dab_radio', $product->get_id() ) ) {
-                echo '<img src="/wp-content/uploads/kf_spp_dab.png" class="kf_icon" />';
+                echo wp_get_attachment_image( 7282 , 'thumbnail' );
                 }
                 if( $bluetooth2 = get_sub_field( 'bluetooth', $product->get_id() ) ) {
                 echo '<img src="/wp-content/uploads/kf_spp_bluetooth.png" class="kf_icon" />';
+                echo wp_get_attachment_image( 7280 , 'thumbnail' );
                 }
                 if( $cruisecontrol2 = get_sub_field( 'cruise_control', $product->get_id() ) ) {
-                echo '<img src="/wp-content/uploads/kf_spp_cruise.png" class="kf_icon" />';
+                echo wp_get_attachment_image( 861 , 'thumbnail' );
                 }
                 if( $aircon2 = get_sub_field( 'air_conditioning', $product->get_id() ) ) {
-                echo '<img src="/wp-content/uploads/kf_spp_ac.png" class="kf_icon" />';
+                echo wp_get_attachment_image( 7279 , 'thumbnail' );
                 }
                 if( $satnav2 = get_sub_field( 'satellite_navigation', $product->get_id() ) ) {
                 echo '<img src="/wp-content/uploads/kf_spp_satnav.png" class="kf_icon" />';
+                echo wp_get_attachment_image( 864 , 'thumbnail' );
                 }
                 if( $heatedseats2 = get_sub_field( 'heated_seats', $product->get_id() ) ) {
                 echo '<img src="/wp-content/uploads/kf_spp_heatedseats.png" class="kf_icon" />';
+                echo wp_get_attachment_image( 7277 , 'thumbnail' );
                 }
                 if( $applecc = get_sub_field( 'apple_carplay', $product->get_id() ) ) {
-                echo '<img src="/wp-content/uploads/apple-carplay-logo.png" class="kf_icon" />';
+                echo wp_get_attachment_image( 7294 , 'thumbnail' );
                 }
 
                     echo '<div class="get_quote"><a href="#quote" class="get_quote_text">Get a Quote</a></div>';
+                    echo '<div class="CALL NOW"><a href="tel:0161 928 3456" class="call-now">';
+
 
                     endwhile;
 
@@ -521,22 +525,16 @@ echo '</div>';
 
 }
 
-
+// Adds the Payment Profile to the Single Product page
 
 add_action('woocommerce_after_single_product','newpaymentprofile', 20);
 
 function newpaymentprofile() {
 
-    //========================================================================================================
-    //                                         PAYMENT PROFILE TABLE
-    //========================================================================================================
-
     global $product;
 
     $url2 = 'http://' . $_SERVER['SERVER_NAME'] . $_SERVER['REQUEST_URI'];
                 
-
-    //creates the payment profile table            
     echo '<div class="container">';
         echo '<div class="row">';
             echo '<div class="payment_profile">';
@@ -562,9 +560,6 @@ function newpaymentprofile() {
                 <th class="price">Monthly Price</th>
             </thead>
         <tbody>';
-
-
-
         //start of 12 month payment profile//
         if( have_rows('12_month_profile') ):
         // loop through the rows of data
@@ -2036,21 +2031,42 @@ function misha_populate_brands( $column_name ) {
  
 } 
 
+/**
+ * Extend WordPress search to include custom fields
+ *
+ * https://adambalee.com
+ */
 
-add_filter('woocommerce_product_filters', 'tag_filter', 10, 1);
+/**
+ * Join posts and postmeta tables
+ *
+ * http://codex.wordpress.org/Plugin_API/Filter_Reference/posts_join
+ */
+function cf_search_join( $join ) {
+    global $wpdb;
 
-function tag_filter($output)
-{
- $terms = get_terms('product_tag'); //Get all Tags
- ?> <select name="product_tag" id="product_tag_id">
-  <option value="">Filter by product tags </option>
-<?php
-foreach ($terms as $term) { //Loop Throug tags and print the option with Tag Name
-        echo '<option value=' . $term->name . '> ' . $term->name . 
-'</option>';
+    if ( is_search() ) {    
+        $join .=' LEFT JOIN '.$wpdb->postmeta. ' ON '. $wpdb->posts . '.ID = ' . $wpdb->postmeta . '.post_id ';
     }
-    ?>
-        </select>
 
-        <?php
+    return $join;
 }
+add_filter('posts_join', 'cf_search_join' );
+
+/**
+ * Modify the search query with posts_where
+ *
+ * http://codex.wordpress.org/Plugin_API/Filter_Reference/posts_where
+ */
+function cf_search_where( $where ) {
+    global $pagenow, $wpdb;
+
+    if ( is_search() ) {
+        $where = preg_replace(
+            "/\(\s*".$wpdb->posts.".post_title\s+LIKE\s*(\'[^\']+\')\s*\)/",
+            "(".$wpdb->posts.".post_title LIKE $1) OR (".$wpdb->postmeta.".meta_value LIKE $1)", $where );
+    }
+
+    return $where;
+}
+add_filter( 'posts_where', 'cf_search_where' );
