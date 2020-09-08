@@ -446,32 +446,30 @@ function new_product_title() {
                 echo '<div class="key_feats_logos">';
 
                 if( $dabtest = get_sub_field( 'dab_radio', $product->get_id() ) ) {
-                echo wp_get_attachment_image( 7282 , 'thumbnail' );
+                echo wp_get_attachment_image( 7282 , 'thumbnail', "", ["class" => "kf_icon"]   );
                 }
                 if( $bluetooth2 = get_sub_field( 'bluetooth', $product->get_id() ) ) {
-                echo '<img src="/wp-content/uploads/kf_spp_bluetooth.png" class="kf_icon" />';
-                echo wp_get_attachment_image( 7280 , 'thumbnail' );
+                echo wp_get_attachment_image( 7280 , 'thumbnail', "", ["class" => "kf_icon"]   );
                 }
                 if( $cruisecontrol2 = get_sub_field( 'cruise_control', $product->get_id() ) ) {
-                echo wp_get_attachment_image( 861 , 'thumbnail' );
+                echo wp_get_attachment_image( 861 , 'thumbnail', "", ["class" => "kf_icon"]   );
                 }
                 if( $aircon2 = get_sub_field( 'air_conditioning', $product->get_id() ) ) {
-                echo wp_get_attachment_image( 7279 , 'thumbnail' );
+                echo wp_get_attachment_image( 7279 , 'thumbnail', "", ["class" => "kf_icon"]  );
                 }
                 if( $satnav2 = get_sub_field( 'satellite_navigation', $product->get_id() ) ) {
-                echo '<img src="/wp-content/uploads/kf_spp_satnav.png" class="kf_icon" />';
-                echo wp_get_attachment_image( 864 , 'thumbnail' );
+                echo wp_get_attachment_image( 7294 , 'thumbnail', "", ["class" => "kf_icon"]   );
                 }
                 if( $heatedseats2 = get_sub_field( 'heated_seats', $product->get_id() ) ) {
-                echo '<img src="/wp-content/uploads/kf_spp_heatedseats.png" class="kf_icon" />';
-                echo wp_get_attachment_image( 7277 , 'thumbnail' );
+                echo wp_get_attachment_image( 7277 , 'thumbnail', "", ["class" => "kf_icon"]   );
                 }
                 if( $applecc = get_sub_field( 'apple_carplay', $product->get_id() ) ) {
-                echo wp_get_attachment_image( 7294 , 'thumbnail' );
+                echo wp_get_attachment_image( 7294 , 'thumbnail', "", ["class" => "kf_icon"]   );
                 }
 
                     echo '<div class="get_quote"><a href="#quote" class="get_quote_text">Get a Quote</a></div>';
                     echo '<div class="CALL NOW"><a href="tel:0161 928 3456" class="call-now">';
+
 
 
                     endwhile;
