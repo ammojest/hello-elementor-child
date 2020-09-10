@@ -306,6 +306,7 @@ add_action('woocommerce_after_single_product','new_product_title', 20);
 
 function new_product_title() {
         global $product;
+        $media = wp_get_upload_dir()["url"];
 
         echo '<div class="container">';
             echo '<div class="row">';
@@ -338,7 +339,7 @@ function new_product_title() {
                     if( $sale_badge = get_sub_field( 'sale_badge', $product->get_id() ) ) {
                 
                     $sale_badge = str_replace(' ', '_', $sale_badge);
-                    echo '<img src="/wp-content/uploads/'. $sale_badge . '.png" class="new_sale_badge" />';
+                    echo '<img src="'. $media . '/' . $sale_badge . '.png" class="new_sale_badge" />';
                     }
 
 
@@ -364,7 +365,7 @@ function new_product_title() {
 
                     if( $manulogo = get_field( 'make', $product->get_id() ) ) {
                 $manulogo = str_replace(' ', '-', $manulogo);
-                echo '<a href="/make/' . $manulogo . '"><img src="/wp-content/uploads/' . strtoupper($manulogo). '-logo.png" class="manufacturer_logo" /></a>';;
+                echo '<a href="/make/' . $manulogo . '"><img src="'. $media . '/' . strtoupper($manulogo). '-logo.png" class="manufacturer_logo" /></a>';;
                 }
 
                 $currentprice = get_field('main_business_price');
@@ -467,8 +468,14 @@ function new_product_title() {
                 echo wp_get_attachment_image( 7294 , 'thumbnail', "", ["class" => "kf_icon"]   );
                 }
 
+                $imageref = wp_get_attachment_image_src( 7294, 'medium' )[0];
+                
+                echo '<img src="'.$imageref.'">';
+
                     echo '<div class="get_quote"><a href="#quote" class="get_quote_text">Get a Quote</a></div>';
-                    echo '<div class="CALL NOW"><a href="tel:0161 928 3456" class="call-now">';
+                    echo '<div class="hours openstatus"><a href="tel:0161 928 3456">CALL NOW</a></div>';
+                    echo '<div class="closed openstatus"><a href="tel:0161 928 3456">SORRY WE ARE CLOSED</a></div>';
+
 
 
 
@@ -494,17 +501,17 @@ function new_product_title() {
                                     print '<a href="https://www.facebook.com/sharer/sharer.php?u='.$url2.'" target="_blank"><img src="/wp-content/uploads/facebook.png" class="social_icon" alt="Facebook Icon"></a>';
                                     }
                                     if(get_option("social-share-twitter") == 1){
-                                    print '<a href="https://twitter.com/intent/tweet?text='.$url3.'" target="_blank"><img src="/wp-content/uploads/twitter.png" class="social_icon" alt="Twitter Icon"></a>';
+                                    print '<a href="https://twitter.com/intent/tweet?text='.$url2.'" target="_blank"><img src="/wp-content/uploads/twitter.png" class="social_icon" alt="Twitter Icon"></a>';
                                     }
                                     if(get_option("social-share-whatsapp") == 1){
-                                    print '<a href="whatsapp://send?text='.$url3.'" target="_blank"><img src="/wp-content/uploads/whatsapp.png" class="social_icon" alt="Whatsapp Icon"></a>';
+                                    print '<a href="whatsapp://send?text='.$url2.'" target="_blank"><img src="/wp-content/uploads/whatsapp.png" class="social_icon" alt="Whatsapp Icon"></a>';
                                     }
     
                                     if(get_option("social-share-pinterest") == 1){
-                                    print '<a href="https://pinterest.com/pin/create/button/?url='.$url3.'" target="_blank"><img src="/wp-content/uploads/pinterest.png" class="social_icon" alt="Pinterest Icon"></a>';
+                                    print '<a href="https://pinterest.com/pin/create/button/?url='.$url2.'" target="_blank"><img src="/wp-content/uploads/pinterest.png" class="social_icon" alt="Pinterest Icon"></a>';
                                     }
                                     if(get_option("social-share-linkedin") == 1){
-                                    print '<a href="https://www.linkedin.com/shareArticle?mini=true&url='.$url3.'" target="_blank"><img src="/wp-content/uploads/linkedin.png" class="social_icon" alt="Linkedin Icon"></a>';
+                                    print '<a href="https://www.linkedin.com/shareArticle?mini=true&url='.$url2.'" target="_blank"><img src="/wp-content/uploads/linkedin.png" class="social_icon" alt="Linkedin Icon"></a>';
                                     }
                                     if(get_option("social-share-email") == 1){
                                     print '<a href="mailto:enquires@contractcars.com" target="_blank"><img src="/wp-content/uploads/mail.png" class="social_icon" alt="Email Icon"></a>';
@@ -2068,3 +2075,20 @@ function cf_search_where( $where ) {
     return $where;
 }
 add_filter( 'posts_where', 'cf_search_where' );
+
+
+ 
+add_action( 'woocommerce_update_product', 'ammojest_log_price_changes_wc_status', 9999, 2 );
+ 
+function ammojest_log_price_changes_wc_status( $product_id, $product ) {
+ 
+   // GET PRODUCT PRICE
+   $price = $product->get_price();
+ 
+   // LOAD THE WC LOGGER
+   $logger = wc_get_logger();
+    
+   // LOG NEW PRICE TO CUSTOM "price-changes" LOG
+   $logger->info( 'Product ID ' . $product_id . ' price changed to: ' . $price, array( 'source' => 'price-changes' ) );
+ 
+} 
