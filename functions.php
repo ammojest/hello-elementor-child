@@ -498,23 +498,23 @@ function new_product_title() {
 
 
                                     if(get_option("social-share-facebook") == 1){
-                                    print '<a href="https://www.facebook.com/sharer/sharer.php?u='.$url2.'" target="_blank"><img src="/wp-content/uploads/facebook.png" class="social_icon" alt="Facebook Icon"></a>';
+                                    print '<a href="https://www.facebook.com/sharer/sharer.php?u='.$url2.'" target="_blank"><img src="'. $media .'/facebook.png" class="social_icon" alt="Facebook Icon"></a>';
                                     }
                                     if(get_option("social-share-twitter") == 1){
-                                    print '<a href="https://twitter.com/intent/tweet?text='.$url2.'" target="_blank"><img src="/wp-content/uploads/twitter.png" class="social_icon" alt="Twitter Icon"></a>';
+                                    print '<a href="https://twitter.com/intent/tweet?text='.$url2.'" target="_blank"><img src="'. $media .'/twitter.png" class="social_icon" alt="Twitter Icon"></a>';
                                     }
                                     if(get_option("social-share-whatsapp") == 1){
-                                    print '<a href="whatsapp://send?text='.$url2.'" target="_blank"><img src="/wp-content/uploads/whatsapp.png" class="social_icon" alt="Whatsapp Icon"></a>';
+                                    print '<a href="whatsapp://send?text='.$url2.'" target="_blank"><img src="'. $media .'/whatsapp.png" class="social_icon" alt="Whatsapp Icon"></a>';
                                     }
     
                                     if(get_option("social-share-pinterest") == 1){
-                                    print '<a href="https://pinterest.com/pin/create/button/?url='.$url2.'" target="_blank"><img src="/wp-content/uploads/pinterest.png" class="social_icon" alt="Pinterest Icon"></a>';
+                                    print '<a href="https://pinterest.com/pin/create/button/?url='.$url2.'" target="_blank"><img src="'. $media .'/pinterest.png" class="social_icon" alt="Pinterest Icon"></a>';
                                     }
                                     if(get_option("social-share-linkedin") == 1){
-                                    print '<a href="https://www.linkedin.com/shareArticle?mini=true&url='.$url2.'" target="_blank"><img src="/wp-content/uploads/linkedin.png" class="social_icon" alt="Linkedin Icon"></a>';
+                                    print '<a href="https://www.linkedin.com/shareArticle?mini=true&url='.$url2.'" target="_blank"><img src="'. $media .'/linkedin.png" class="social_icon" alt="Linkedin Icon"></a>';
                                     }
                                     if(get_option("social-share-email") == 1){
-                                    print '<a href="mailto:enquires@contractcars.com" target="_blank"><img src="/wp-content/uploads/mail.png" class="social_icon" alt="Email Icon"></a>';
+                                    print '<a href="mailto:enquires@contractcars.com" target="_blank"><img src="'. $media .'/mail.png" class="social_icon" alt="Email Icon"></a>';
                                     }
 
                                 echo '</div>';
